@@ -485,6 +485,21 @@ identity.  To deny access, use the C<deny:regex:I<regex>> syntax.
 This method is supported only if a library for POSIX-compatible regular
 expressions was found when B<remctld> was built.
 
+=item ext
+
+[3.17] This method is used to grant or deny access based on the result of
+an external command. The data is of the form I<executable>[:I<args>], with
+I<executable> being the full path to the command executable to run, and
+I<args> containing one or more arguments separated by semicolons (;).  The
+program is run with the provided arguments, followed by the command and
+subcommand. The environment is the same as when actually executing the
+command (see L<ENVIRONMENT> below).
+
+The result of the access check depends on the program's exit status.
+Access is granted if the exit status is 0; a status of 1 indicates no
+match. The special exit status 3 can be used to explicitly deny access,
+as for the C<deny> method. Any other status is an error.
+
 =back
 
 To see the list of ACL types supported by a particular build of
